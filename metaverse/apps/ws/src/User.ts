@@ -33,13 +33,9 @@ export class User {
 
   initHandlers() {
     this.ws.on("message", async (data) => {
-      console.log(data);
       const parsedData = JSON.parse(data.toString());
-      console.log(parsedData);
-      console.log("parsedData");
       switch (parsedData.type) {
         case "join":
-          console.log("jouin receiverdfd");
           const spaceId = parsedData.payload.spaceId;
           const token = parsedData.payload.token;
           const userId = (jwt.verify(token, JWT_PASSWORD) as JwtPayload).userId;
@@ -47,19 +43,16 @@ export class User {
             this.ws.close();
             return;
           }
-          console.log("jouin receiverdfd 2");
           this.userId = userId;
           const space = await client.space.findFirst({
             where: {
               id: spaceId,
             },
           });
-          console.log("jouin receiverdfd 3");
           if (!space) {
             this.ws.close();
             return;
           }
-          console.log("jouin receiverdfd 4");
           this.spaceId = spaceId;
           RoomManager.getInstance().addUser(spaceId, this);
           this.x = Math.floor(Math.random() * space?.width);
@@ -78,7 +71,6 @@ export class User {
                   ?.map((u) => ({ id: u.id })) ?? [],
             },
           });
-          console.log("jouin receiverdf5");
           RoomManager.getInstance().broadcast(
             {
               type: "user-joined",

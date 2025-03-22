@@ -45,13 +45,6 @@ const Arena = () => {
   const handleWebSocketMessage = (message: any) => {
     switch (message.type) {
       case "space-joined":
-        // Initialize current user position and other users
-        console.log("set");
-        console.log({
-          x: message.payload.spawn.x,
-          y: message.payload.spawn.y,
-          userId: message.payload.userId,
-        });
         setCurrentUser({
           x: message.payload.spawn.x,
           y: message.payload.spawn.y,
@@ -129,7 +122,6 @@ const Arena = () => {
 
   // Draw the arena
   useEffect(() => {
-    console.log("render");
     const canvas = canvasRef.current;
     if (!canvas) return;
     console.log("below render");

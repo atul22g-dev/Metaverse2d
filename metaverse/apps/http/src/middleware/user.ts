@@ -9,8 +9,6 @@ export const userMiddleware = (
 ) => {
   const header = req.headers["authorization"];
   const token = header?.split(" ")[1];
-  console.log(req.route.path);
-  console.log(token);
 
   if (!token) {
     res.status(403).json({ message: "Unauthorized" });
