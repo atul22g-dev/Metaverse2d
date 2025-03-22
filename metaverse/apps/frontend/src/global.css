@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+:root{
+    --header: #3b436c;
+    --body: #282d4e;
+    --button-1-bg: #5882f7;
+    --button-2-bg: #06d6a0;
+
+}
+
+/* Comman */
+.button{
+    font-weight: 500;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.6rem;
+    cursor: pointer;
+}
+.button-1{
+    color: white;
+    background: var(--button-1-bg);
+}
+.button-2{
+    color: black;
+    background: var(--button-2-bg);
+}
