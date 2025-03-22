@@ -1,12 +1,7 @@
 import Arena from "./Game";
 
 function App() {
-
-  return (
-    <>
-      <Arena />
-    </>
-  )
+  return <Arena />;
 }
 
-export default App
+export default App;
