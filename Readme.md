@@ -26,10 +26,10 @@ This is a monorepo using Turborepo with the following structure:
 ### Installation
 ```sh
 # Clone the repository
-git clone https://github.com/yourusername/2d-metaverse.git
+git clone https://github.com/atul22g-dev/Metaverse2d.git
 
 # Install dependencies
-cd metaverse
+cd Metaverse2d
 pnpm install
 ```
 
