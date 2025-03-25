@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/home/Home";
 import Signin from "./components/auth/Signin";
 import Signup from "./components/auth/Signup";
+
 const App = () => {
   return (
     <Router >

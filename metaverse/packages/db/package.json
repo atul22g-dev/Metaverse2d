@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "build": "tsc -b",
-    "db:migrate": "prisma migrate dev",
+    "db:migrate": "prisma migrate dev", 
     "db:generate": "prisma generate",
-    "db:deploy": "prisma migrate deploy"
+    "db:deploy": "prisma migrate deploy",
+    "db:reset": "prisma migrate reset --force --skip-seed"
   },
   "exports": {
     "./client": "./src/index.ts"

@@ -1,72 +1,60 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-
+import { Link, useNavigate } from 'react-router-dom';
+import AuthService from '../../service/AuthService';
+import { toast } from "react-toastify";
 
 const Signup: React.FC = () => {
+    const navigate = useNavigate();
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [cPassword, setCPassword] = useState('');
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        if (password == cPassword) {
+        if (password === cPassword) {
             try {
-                const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/signin`, {
-                    username:userName,
-                    password,
-                    type: "user"
-                });
-                console.log('Signup successful:', response.data);
-            } catch (error) {
-                console.error('Signup failed:', error);
+                const authService = new AuthService();
+                const response = await authService.signup(userName, password);
+                localStorage.setItem('metaverse2dToken', response)
+                navigate("/");
+            } catch (error: any) {
+                toast.error(error.response.data.message);
             }
+        } else {
+            toast.error("Passwords do not match");
         }
     };
 
     return (
-        <>
-            <div className="flex min-h-full h-screen flex-col justify-center px-6 py-12 lg:px-8" >
-                <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                    <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign Up</h2>
+        <section className="bg-[var(--secandary-color)]">
+            <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+                <div className="w-full rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0 bg-[var(--primary-color)] border-gray-700">
+                    <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                        <h1 className="text-xl font-bold leading-tight tracking-tight  md:text-2xl text-white">
+                            Create an account
+                        </h1>
+                        <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+                            <div>
+                                <label htmlFor="test" className="block mb-2 text-sm font-medium text-white">Your Username</label>
+                                <input type="username" name="username" value={userName} onChange={(e) => setUserName(e.target.value)} className="border outline-none text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" placeholder="UserName" />
+                            </div>
+                            <div>
+                                <label htmlFor="password" className="block mb-2 text-sm font-medium text-white">Password</label>
+                                <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" className="border outline-none text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" />
+                            </div>
+                            <div>
+                                <label htmlFor="confirm-password" className="block mb-2 text-sm font-medium  text-white">Confirm password</label>
+                                <input type="confirm-password" name="confirm-password" value={cPassword} onChange={(e) => setCPassword(e.target.value)} placeholder="••••••••" className="border outline-none text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" />
+                            </div>
+                            <button type="submit" className="w-full cursor-pointer text-white bg-primary-600 border-2 border-gray-500 hover:bg-primary-700 focus:ring-1 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-primary-600 hover:bg-primary-700 focus:ring-primary-800">Create an account</button>
+                            <p className="text-sm font-light text-gray-400">
+                                Already have an account? <Link to={'/signin'} className="font-medium text-primary-600 hover:underline text-primary-500">Login here</Link>
+                            </p>
+                        </form>
+                    </div>
                 </div>
-
-                <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6" onSubmit={handleSubmit}>
-                        <div>
-                            <label htmlFor="userName" className="block text-sm/6 font-medium text-gray-900">User Name:</label>
-                            <div className="mt-2">
-                                <input type="text" name="userName" value={userName} onChange={(e) => setUserName(e.target.value)} required className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
-                            </div>
-                        </div>
-
-                        <div>
-                            <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">Password</label>
-                            <div className="mt-2">
-                                <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" required className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
-                            </div>
-                        </div>
-                        <div>
-                            <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">Conform Password</label>
-                            <div className="mt-2">
-                                <input type="password" name="cPassword" value={cPassword} onChange={(e) => setCPassword(e.target.value)} autoComplete="current-password" required className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
-                            </div>
-                        </div>
-
-                        <div>
-                            <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign up</button>
-                        </div>
-                    </form>
-
-                    <p className="mt-10 text-center text-sm/6 text-gray-500">
-                        Have a Account?
-                        <Link to={'/Signin'} className="font-semibold text-indigo-600 pl-1 hover:text-indigo-500">
-                            Sign in
-                        </Link>
-                    </p>
-                </div>
-            </div >
-        </>
+            </div>
+        </section>
     );
 };
 
