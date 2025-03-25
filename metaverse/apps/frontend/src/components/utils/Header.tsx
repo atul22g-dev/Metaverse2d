@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 const Header = () => {
     return (
         <header className="text-gray-600 body-font bg-[var(--header)]">
@@ -6,7 +8,7 @@ const Header = () => {
                     <span className="ml-3 text-2xl text-white">MetaVerse2D</span>
                 </span>
                 <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center gap-4">
-                    <button className="button button-1"> Sign In</button>
+                    <Link to={"/Signin"} className="button button-1"> Sign In</Link>
                     <button className="button button-2">Create Space</button>
                 </nav>
             </div>

@@ -1,3 +1,4 @@
+import { log } from "node:console";
 import z from "zod";
 
 export const SignupSchema = z.object({
