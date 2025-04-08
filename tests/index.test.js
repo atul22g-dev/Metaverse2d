@@ -1,7 +1,7 @@
 const axios2 = require("axios");
 
-const BACKEND_URL = "http://localhost:3000"
-const WS_URL = "ws://localhost:3001"
+const BACKEND_URL = "http://localhost:3001"
+const WS_URL = "ws://localhost:3002"
 
 const axios = {
     post: async (...args) => {

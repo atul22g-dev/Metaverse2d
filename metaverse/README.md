@@ -1,14 +1,75 @@
-# Turborepo starter
+# 2D Metaverse Project
 
-This is an official starter Turborepo.
+A modern 2D metaverse platform built with TypeScript and React using Turborepo.
 
-## Using this example
+## Getting Started
 
-Run the following command:
+### Prerequisites
+- Node.js 18+
+- pnpm 8.15.6+
+- PostgreSQL database
+
+### Installation
 
 ```sh
-npx create-turbo@latest
+# Install dependencies
+pnpm install
 ```
+
+### Database Setup
+
+```sh
+# Navigate to the database package
+cd packages/db
+
+# Make sure your .env file contains the correct DATABASE_URL
+# Example: DATABASE_URL=postgresql://username:password@localhost:5432/metaverse
+
+# Generate Prisma client
+pnpm db:generate
+# or
+npx prisma generate
+
+# Create and apply migrations (development)
+pnpm db:migrate
+# or
+npx prisma migrate dev --name init
+
+# Deploy migrations to production
+pnpm db:deploy
+# or
+npx prisma migrate deploy
+```
+### Project Start Commands
+
+```sh
+# Install dependencies (if not already done)
+pnpm install
+
+# Build all packages and apps
+pnpm build
+
+# Start each service individually (recommended approach)
+
+# 1. Start HTTP Server (runs on http://localhost:3001)
+cd apps/http
+pnpm build
+pnpm start
+
+# 2. Start WebSocket Server (runs on ws://localhost:3002) - open a new terminal
+cd ../ws  # or full path: cd /path/to/metaverse/apps/ws
+pnpm build
+pnpm start
+
+# 3. Start Frontend (runs on http://localhost:5173) - open a new terminal
+cd ../frontend  # or full path: cd /path/to/metaverse/apps/frontend
+pnpm dev
+
+# After starting all services, open your browser at:
+http://localhost:5173
+```
+
+
 
 ## What's inside?
 
@@ -16,11 +77,13 @@ This Turborepo includes the following packages/apps:
 
 ### Apps and Packages
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+- `frontend`: React/Vite application for the client interface
+- `http`: HTTP server backend (Express.js)
+- `ws`: WebSocket server for real-time communication
+- `@repo/db`: Database utilities and Prisma client
+- `@repo/ui`: Shared React component library
+- `@repo/eslint-config`: ESLint configurations
+- `@repo/typescript-config`: TypeScript configurations used throughout the monorepo
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
@@ -32,22 +95,48 @@ This Turborepo has some additional tools already setup for you:
 - [ESLint](https://eslint.org/) for code linting
 - [Prettier](https://prettier.io) for code formatting
 
+### Development
+
+To develop all apps and packages, run the following command from the root directory:
+
+```sh
+# Start all services in development mode
+pnpm dev
+
+# Start specific app
+pnpm dev --filter frontend
+pnpm dev --filter http
+pnpm dev --filter ws
+```
+
+#### Starting Individual Services Manually
+
+```sh
+# Frontend (runs on http://localhost:5173 by default)
+cd apps/frontend
+pnpm dev
+
+# HTTP Server (runs on http://localhost:3001)
+cd apps/http
+pnpm build && pnpm start
+
+# WebSocket Server (runs on ws://localhost:3002)
+cd apps/ws
+pnpm build && pnpm start
+```
+
 ### Build
 
-To build all apps and packages, run the following command:
+To build all apps and packages, run the following command from the root directory:
 
-```
-cd my-turborepo
+```sh
 pnpm build
-```
 
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
+# Build specific package or app
+pnpm build --filter frontend
+pnpm build --filter http
+pnpm build --filter ws
+pnpm build --filter @repo/db
 ```
 
 ### Remote Caching
